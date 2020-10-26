@@ -28,18 +28,15 @@ public class Timer : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        CheckExecutableActions();
+        ExecuteActions();
     }
 
-    private void CheckExecutableActions()
+    private void ExecuteActions()
     {
-        foreach (MonoBehaviour monoBehaviour in monoBehaviours)
+        IExecutableAction[] actions = GetComponents<IExecutableAction>();
+        foreach(IExecutableAction action in actions)
         {
-            if (monoBehaviour is IExecutableAction)
-            {
-                IExecutableAction actionableObject = (IExecutableAction)monoBehaviour;
-                actionableObject.ExecuteAction();
-            }
+            action.ExecuteAction();
         }
     }
 }
